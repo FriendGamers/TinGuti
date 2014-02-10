@@ -13,6 +13,7 @@ class AiBoard {
 
     public AiBoard() {
         boardValue = new int[90];
+        println("Bangladesh");
         markBoard = new int[90];
         board = new int[10][10];
 
