@@ -23,6 +23,8 @@ class AiBoard {
     public AiBoard() {
         boardValue = new int[90];
         markBoard = new int[90];
+
+        //shanta has made a change
         board = new int[3][3];
         board[0][0] = 1;
         board[0][1] = 1;
