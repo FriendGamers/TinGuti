@@ -16,14 +16,15 @@ package yusuf.ai
  * board value 2 player2 win
 **/
 class AiBoard {
-    int[] boardValue; //= new int[90];
-    int[] markBoard; //= new int[90];
-    int[][] board; //= new int[10][10];
+    int[] boardValue;
+    int[] markBoard;
+    int[] visitedBoard;
+    int[][] board;
 
     public AiBoard() {
         boardValue = new int[90];
         markBoard = new int[90];
-
+        visitedBoard = new int[90];
         //shanta has made a change
         board = new int[3][3];
         board[0][0] = 1;
@@ -34,11 +35,11 @@ class AiBoard {
         board[2][2] = 3;
     }
 
-    static void calculateBoardValue() {
+    static void calculateBoardValue(int player) {
 
     }
 
-    private Integer checkBoard() {
+    private int checkBoard() {
         if((this.board[0][0] == this.board[0][1]) && (this.board[0][1] == this.board[0][2]) && (this.board[0][0] == 2)) {
             return 1;
         } else if((this.board[0][0] == this.board[0][1]) && (this.board[0][1] == this.board[0][2]) && (this.board[0][0] == 4)) {
