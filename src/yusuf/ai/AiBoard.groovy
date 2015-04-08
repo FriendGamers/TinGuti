@@ -1,4 +1,7 @@
 package yusuf.ai
+
+import yusuf.element.Pair
+
 /**
  * Created with IntelliJ IDEA.
  * User: Yusuf
@@ -20,19 +23,21 @@ class AiBoard {
     int[] markBoard;
     int[] visitedBoard;
     int[][] board;
+    HashMap<Pair, ArrayList<Pair>> move;
 
     public AiBoard() {
-        boardValue = new int[90];
-        markBoard = new int[90];
-        visitedBoard = new int[90];
-        //shanta has made a change
-        board = new int[3][3];
-        board[0][0] = 1;
-        board[0][1] = 1;
-        board[0][2] = 1;
-        board[2][0] = 3;
-        board[2][1] = 3;
-        board[2][2] = 3;
+        this.boardValue = new int[90];
+        this.markBoard = new int[90];
+        this.visitedBoard = new int[90];
+        this.board = new int[3][3];
+        this.move = new HashMap<Pair, ArrayList<Pair>>();
+        this.board[0][0] = 1;
+        this.board[0][1] = 1;
+        this.board[0][2] = 1;
+        this.board[2][0] = 3;
+        this.board[2][1] = 3;
+        this.board[2][2] = 3;
+        this.setMoves();
     }
 
     static void calculateBoardValue(int player) {
@@ -75,5 +80,58 @@ class AiBoard {
         } else {
             return 0;
         }
+    }
+
+    private void setMoves() {
+        ArrayList<Pair> m = new ArrayList<>();
+        m[0] = new Pair(1,0);
+        m[1] = new Pair(1,1);
+        m[2] = new Pair(0,1);
+        this.move[new Pair(0,0)] = m;
+        ArrayList<Pair> m1 = new ArrayList<>();
+        m1[0] = new Pair(0,0);
+        m1[1] = new Pair(1,1);
+        m1[2] = new Pair(0,2);
+        this.move[new Pair(0,1)] = m1;
+        ArrayList<Pair> m2 = new ArrayList<>();
+        m2[0] = new Pair(0,1);
+        m2[1] = new Pair(1,1);
+        m2[2] = new Pair(1,2);
+        this.move[new Pair(0,2)] = m2;
+        ArrayList<Pair> m3 = new ArrayList<>();
+        m3[0] = new Pair(0,0);
+        m3[1] = new Pair(1,1);
+        m3[2] = new Pair(2,0);
+        this.move[new Pair(1,0)] = m3;
+        ArrayList<Pair> m4 = new ArrayList<>();
+        m4[0] = new Pair(0,0);
+        m4[1] = new Pair(0,1);
+        m4[2] = new Pair(0,2);
+        m4[3] = new Pair(1,0);
+        m4[4] = new Pair(1,2);
+        m4[5] = new Pair(2,0);
+        m4[6] = new Pair(2,1);
+        m4[7] = new Pair(2,2);
+        this.move[new Pair(1,1)] = m4;
+        ArrayList<Pair> m5 = new ArrayList<>();
+        m5[0] = new Pair(0,2);
+        m5[1] = new Pair(1,1);
+        m5[2] = new Pair(2,2);
+        this.move[new Pair(1,2)] = m5;
+        ArrayList<Pair> m6 = new ArrayList<>();
+        m6[0] = new Pair(1,0);
+        m6[1] = new Pair(1,1);
+        m6[2] = new Pair(2,1);
+        this.move[new Pair(2,0)] = m6;
+        ArrayList<Pair> m7 = new ArrayList<>();
+        m7[0] = new Pair(2,0);
+        m7[1] = new Pair(1,1);
+        m7[2] = new Pair(2,2);
+        this.move[new Pair(2,1)] = m7;
+        ArrayList<Pair> m8 = new ArrayList<>();
+        m8[0] = new Pair(2,1);
+        m8[1] = new Pair(1,1);
+        m8[2] = new Pair(1,2);
+        this.move[new Pair(2,2)] = m5;
     }
 }
