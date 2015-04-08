@@ -20,6 +20,6 @@ class Pair {
     }
 
     public int hashCode() {
-        return this.x.hashCode() + this.y.hashCode();
+        return this.x * 31 + this.y;
     }
 }
