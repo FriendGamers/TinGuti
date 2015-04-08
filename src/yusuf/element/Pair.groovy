@@ -13,10 +13,13 @@ class Pair {
     }
 
     public boolean equals(Object o) {
+        if (!(o instanceof Pair))  {
+            return false;
+        }
         return this.x == o.x && this.y == o.y;
     }
 
     public int hashCode() {
-
+        return this.x.hashCode() + this.y.hashCode();
     }
 }

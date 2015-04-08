@@ -16,7 +16,7 @@ class Play {
         AiBoard aiBoard = new AiBoard();
         Pair p = new Pair(1,1);
         Pair q = new Pair(1,1);
-        if(aiBoard.move.get(p)) {
+        if(aiBoard.move[p]) {
             println("paise");
         } else {
             println("pai nai");
