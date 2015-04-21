@@ -45,20 +45,28 @@ class AiBoard {
         if(boardValue > 0) {
             return boardValue;
         }
-        int playerValue1, playerValue2;
+        int playerValue1, playerValue2, moveValue, nextPlayer;
         if(player == 1) {
             playerValue1 = 1;
             playerValue2 = 2;
+            moveValue = 2;
+            nextPlayer = 2;
         } else {
             playerValue1 = 3;
             playerValue2 = 4;
+            moveValue = 4;
+            nextPlayer = 1;
         }
         for(int i=0; i < 3; i++ ) {
             for(int j=0; j < 3; j++) {
                 if(this.board[i][j] == playerValue1 || this.board[i][j] == playerValue2) {
                     ArrayList<Pair> moves = this.move.get(new Pair(i,j));
                     for(int k = 0; k < moves.size(); k++) {
-
+                        if(this.board[moves[k].x][moves[k].y] == 0) {
+                            this.board[i][j] = 0;
+                            this.board[moves[k].x][moves[k].y] = moveValue;
+                            this.calculateBoardValue(nextPlayer);
+                        }
                     }
                 }
             }
