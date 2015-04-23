@@ -43,7 +43,7 @@ class AiBoard {
     public int calculateBoardValue(int player) {
         int boardValue = this.checkBoard();
         if(boardValue > 0) {
-            return boardValue;
+            return                                                                                                                                      ;
         }
         int playerValue1, playerValue2, moveValue, nextPlayer;
         if(player == 1) {
@@ -57,6 +57,7 @@ class AiBoard {
             moveValue = 4;
             nextPlayer = 1;
         }
+        ArrayList<Integer> results = new ArrayList<Integer>();
         for(int i=0; i < 3; i++ ) {
             for(int j=0; j < 3; j++) {
                 if(this.board[i][j] == playerValue1 || this.board[i][j] == playerValue2) {
@@ -64,12 +65,18 @@ class AiBoard {
                     for(int k = 0; k < moves.size(); k++) {
                         if(this.board[moves[k].x][moves[k].y] == 0) {
                             this.board[i][j] = 0;
+                            int prevValue = this.board[moves[k].x][moves[k].y];
                             this.board[moves[k].x][moves[k].y] = moveValue;
-                            this.calculateBoardValue(nextPlayer);
+                            results.add(this.calculateBoardValue(nextPlayer));
+                            this.board[moves[k].x][moves[k].y] = prevValue;
                         }
                     }
                 }
             }
+        }
+        int boardVale;
+        for(int i = 0; i < results.size(); i++) {
+
         }
     }
 
