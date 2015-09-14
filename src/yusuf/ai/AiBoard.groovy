@@ -19,15 +19,17 @@ import yusuf.element.Pair
  * board value 2 player2 win
 **/
 class AiBoard {
-    int[] boardValue;
-    int[] markBoard;
+    Boolean[][][][][][][][][] markBoard;
+    Boolean[][][][][][][][][] visited;
+    int[][][][][][][][][] boardValue;
     int[] visitedBoard;
     int[][] board;
     HashMap<Pair, ArrayList<Pair>> move;
 
     public AiBoard() {
-        this.boardValue = new int[90];
-        this.markBoard = new int[90];
+        this.boardValue = new int[5][5][5][5][5][5][5][5][5];
+        this.markBoard = new Boolean[5][5][5][5][5][5][5][5][5];
+        this.visited = new Boolean[5][5][5][5][5][5][5][5][5];
         this.visitedBoard = new int[90];
         this.board = new int[3][3];
         this.move = new HashMap<Pair, ArrayList<Pair>>();
@@ -41,10 +43,17 @@ class AiBoard {
     }
 
     public int calculateBoardValue(int player) {
-        int boardValue = this.checkBoard();
-        if(boardValue > 0) {
-            return                                                                                                                                      ;
+        this.visited[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]] = true;
+        int curValue = this.checkBoard();
+        if(curValue > 0) {
+            this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]] = curValue;
+            return curValue;                                                                                                                                     ;
         }
+
+        if(this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]]) {
+            return this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]];
+        }
+
         int playerValue1, playerValue2, moveValue, nextPlayer;
         if(player == 1) {
             playerValue1 = 1;
@@ -67,17 +76,41 @@ class AiBoard {
                             this.board[i][j] = 0;
                             int prevValue = this.board[moves[k].x][moves[k].y];
                             this.board[moves[k].x][moves[k].y] = moveValue;
-                            results.add(this.calculateBoardValue(nextPlayer));
+                            if(!this.visited[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]]) {
+                                results.add(this.calculateBoardValue(nextPlayer));
+                            }
                             this.board[moves[k].x][moves[k].y] = prevValue;
                         }
                     }
                 }
             }
         }
-        int boardVale;
-        for(int i = 0; i < results.size(); i++) {
-
+        int currentValue;
+        if(results[0] != 0) {
+            int p = results[0];
+            boolean pwin = true;
+            for(int i = 1; i < results.size(); i++) {
+                if(results[i] == 0) {
+                    currentValue = 0 ;
+                    break;
+                }
+                if(results[i] != p) {
+                    pwin = false;
+                    break;
+                }
+            }
+            if(pwin) {
+                currentValue = p;
+            } else {
+                currentValue = 0;
+            }
+        } else {
+            currentValue = 0;
         }
+
+        //marking board value
+        this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]] = true;
+        this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]] = currentValue;
     }
 
     private int checkBoard() {

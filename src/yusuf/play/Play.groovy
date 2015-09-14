@@ -14,12 +14,7 @@ class Play {
 
     public static void main(String[] argv) {
         AiBoard aiBoard = new AiBoard();
-        Pair p = new Pair(1,1);
-        Pair q = new Pair(1,1);
-        if(aiBoard.move[p]) {
-            println("paise");
-        } else {
-            println("pai nai");
-        }
+        aiBoard.calculateBoardValue(1);
+        println("finished");
     }
 }
