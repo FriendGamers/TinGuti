@@ -15,6 +15,24 @@ class Play {
     public static void main(String[] argv) {
         AiBoard aiBoard = new AiBoard();
         aiBoard.calculateBoardValue(1);
-        println("finished");
+        for(int a=0; a < 5; a++) {
+            for(int b=0; b < 5; b++) {
+                for(int c =0; c < 5; c++) {
+                    for(int d=0; d < 5; d++) {
+                        for(int e=0; e < 5; e++) {
+                            for(int f=0; f < 5; f++) {
+                                for(int g=0; g < 5; g++) {
+                                    for(int h=0; h < 5; h++) {
+                                        for(int i=0; i < 5; i++) {
+                                            println(aiBoard.boardValue[a][b][c][d][e][f][g][h][i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

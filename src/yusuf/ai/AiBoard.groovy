@@ -21,7 +21,7 @@ import yusuf.element.Pair
 class AiBoard {
     Boolean[][][][][][][][][] markBoard;
     Boolean[][][][][][][][][] visited;
-    int[][][][][][][][][] boardValue;
+    public int[][][][][][][][][] boardValue;
     int[] visitedBoard;
     int[][] board;
     HashMap<Pair, ArrayList<Pair>> move;
@@ -47,7 +47,7 @@ class AiBoard {
         int curValue = this.checkBoard();
         if(curValue > 0) {
             this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]] = curValue;
-            return curValue;                                                                                                                                     ;
+            return curValue;
         }
 
         if(this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]]) {
@@ -73,20 +73,21 @@ class AiBoard {
                     ArrayList<Pair> moves = this.move.get(new Pair(i,j));
                     for(int k = 0; k < moves.size(); k++) {
                         if(this.board[moves[k].x][moves[k].y] == 0) {
-                            this.board[i][j] = 0;
-                            int prevValue = this.board[moves[k].x][moves[k].y];
+                            int prevValue = this.board[i][j];
                             this.board[moves[k].x][moves[k].y] = moveValue;
+                            this.board[i][j] = 0;
                             if(!this.visited[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]]) {
                                 results.add(this.calculateBoardValue(nextPlayer));
                             }
-                            this.board[moves[k].x][moves[k].y] = prevValue;
+                            this.board[i][j] = prevValue;
+                            this.board[moves[k].x][moves[k].y] = 0;
                         }
                     }
                 }
             }
         }
         int currentValue;
-        if(results[0] != 0) {
+        if(results.size() > 0 && results[0] != 0) {
             int p = results[0];
             boolean pwin = true;
             for(int i = 1; i < results.size(); i++) {
