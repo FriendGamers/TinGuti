@@ -2,6 +2,9 @@ package yusuf.play
 
 import yusuf.ai.AiBoard
 import yusuf.element.Pair
+import yusuf.game.GameBoard
+
+import javax.swing.JFrame
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,10 +13,10 @@ import yusuf.element.Pair
  * Time: 11:19 PM
  * To change this template use File | Settings | File Templates.
  */
-class Play {
+class Play extends JFrame {
 
     public static void main(String[] argv) {
-        AiBoard aiBoard = new AiBoard();
+        /*AiBoard aiBoard = new AiBoard();
         aiBoard.calculateBoardValue(1);
         for(int a=0; a < 5; a++) {
             for(int b=0; b < 5; b++) {
@@ -33,6 +36,11 @@ class Play {
                     }
                 }
             }
-        }
+        }*/
+        JFrame jFrame = new JFrame();
+        jFrame.setSize(300, 300);
+        jFrame.add(new GameBoard());
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
