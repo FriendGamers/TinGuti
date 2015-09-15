@@ -15,14 +15,21 @@ import java.awt.geom.Ellipse2D
  */
 class GameBoard extends JPanel {
 
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private MouseDrag mouseDrag;
+
     private final class MouseDrag extends MouseAdapter {
         private boolean dragging = false;
         private Point last;
 
+
         @Override
         public void mousePressed(MouseEvent m) {
-            last = m.getPoint();
-            dragging = isInsideEllipse(last);
+            this.last = m.getPoint();
+            this.dragging = isInsideEllipse(last);
             if (!dragging) {
                 x = last.x;
                 y = last.y;
@@ -55,13 +62,6 @@ class GameBoard extends JPanel {
         }
     }
 
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-
-    private MouseDrag mouseDrag;
-
     public GameBoard() {
         setBackground(Color.WHITE);
         mouseDrag = new MouseDrag();
@@ -76,7 +76,6 @@ class GameBoard extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D)g;
         g.fillOval(x, y, width, height);
     }
 }
