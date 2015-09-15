@@ -4,6 +4,7 @@ import javax.swing.JFrame
 import javax.swing.JPanel
 import java.awt.Color
 import java.awt.Graphics
+import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
@@ -13,6 +14,7 @@ import java.awt.geom.Ellipse2D
  * Created by YUSUF on 9/15/15.
  */
 class GameBoard extends JPanel {
+
     private final class MouseDrag extends MouseAdapter {
         private boolean dragging = false;
         private Point last;
@@ -74,15 +76,8 @@ class GameBoard extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawOval(x, y, width, height);
-    }
-
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-        jFrame.setSize(300, 300);
-        jFrame.add(new GameBoard());
-        jFrame.setVisible(true);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Graphics2D g2d = (Graphics2D)g;
+        g.fillOval(x, y, width, height);
     }
 }
 
