@@ -16,9 +16,9 @@ import javax.swing.JFrame
 class Play extends JFrame {
 
     public static void main(String[] argv) {
-        /*AiBoard aiBoard = new AiBoard();
+        AiBoard aiBoard = new AiBoard();
         aiBoard.calculateBoardValue(1);
-        for(int a=0; a < 5; a++) {
+        /*for(int a=0; a < 5; a++) {
             for(int b=0; b < 5; b++) {
                 for(int c =0; c < 5; c++) {
                     for(int d=0; d < 5; d++) {
@@ -37,10 +37,10 @@ class Play extends JFrame {
                 }
             }
         }*/
-        JFrame jFrame = new JFrame();
+        /*JFrame jFrame = new JFrame();
         jFrame.setSize(300, 300);
         jFrame.add(new GameBoard());
         jFrame.setVisible(true);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
     }
 }

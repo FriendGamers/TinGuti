@@ -87,27 +87,33 @@ class AiBoard {
             }
         }
         int currentValue;
-        if(results.size() > 0 && results[0] != 0) {
-            int p = results[0];
-            boolean pwin = true;
-            for(int i = 1; i < results.size(); i++) {
-                if(results[i] == 0) {
-                    currentValue = 0 ;
+        boolean drow = false;
+        boolean currentWin = false;
+        if(results.size() > 0) {
+            for(int i = 0; i < results.size(); i++) {
+                if(results[i] == player) {
+                    currentValue = player;
+                    currentWin = true
                     break;
-                }
-                if(results[i] != p) {
-                    pwin = false;
-                    break;
+                } else if(results[i] == 0) {
+                    drow = true;
                 }
             }
-            if(pwin) {
-                currentValue = p;
-            } else {
+            if(drow) {
                 currentValue = 0;
+            } else if (currentWin) {
+                currentValue = player;
+            } else {
+                if(player == 1) {
+                    currentValue = 2
+                } else {
+                    currentValue = 1;
+                }
             }
         } else {
             currentValue = 0;
         }
+
 
         //marking board value
         this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]] = true;
