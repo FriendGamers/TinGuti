@@ -1,5 +1,7 @@
 package yusuf.game
 
+import yusuf.ai.AiBoard
+
 import javax.swing.JFrame
 import javax.swing.JPanel
 import java.awt.Color
@@ -20,6 +22,12 @@ class GameBoard extends JPanel {
     private int width;
     private int height;
     private MouseDrag mouseDrag;
+    private AiBoard aiBoard;
+    private int diameter = 10;
+    private int rectX = 50;
+    private int rectY = 50;
+    private int rectHeight = 500;
+    private int rectWidth = 500;
 
     private final class MouseDrag extends MouseAdapter {
         private boolean dragging = false;
@@ -67,6 +75,7 @@ class GameBoard extends JPanel {
         mouseDrag = new MouseDrag();
         addMouseListener(mouseDrag);
         addMouseMotionListener(mouseDrag);
+        repaint();
     }
 
     public boolean isInsideEllipse(Point point) {
@@ -76,7 +85,12 @@ class GameBoard extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.fillOval(x, y, width, height);
+        //g.fillOval(x, y, this.diameter, this.diameter);
+        g.drawRect(this.rectX, this.rectY, this.rectHeight, this.rectWidth);
+        g.drawLine(this.rectX, this.rectY, this.rectX + this.rectWidth, this.rectY + this.rectHeight);
+        g.drawLine((int)(this.rectX + this.rectWidth)/ 2 + this.rectX / 2, this.rectY, (int)(this.rectX + this.rectWidth)/ 2 + this.rectX / 2, this.rectY + this.rectHeight);
+        g.drawLine(this.rectX + this.rectWidth, this.rectY, this.rectX , this.rectY + this.rectHeight);
+        g.drawLine(this.rectX, (int)(this.rectY + this.rectHeight)/ 2 + this.rectY / 2, this.rectX + this.rectWidth, (int)(this.rectY + this.rectHeight)/ 2 + this.rectY / 2);
     }
 }
 

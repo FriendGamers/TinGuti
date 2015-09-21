@@ -37,10 +37,11 @@ class Play extends JFrame {
                 }
             }
         }*/
-        /*JFrame jFrame = new JFrame();
-        jFrame.setSize(300, 300);
+        JFrame jFrame = new JFrame();
+        jFrame.setSize(600, 630);
         jFrame.add(new GameBoard());
         jFrame.setVisible(true);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
