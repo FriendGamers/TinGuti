@@ -1,6 +1,7 @@
 package yusuf.game
 
 import yusuf.ai.AiBoard
+import yusuf.element.PointPosition
 
 import javax.swing.JFrame
 import javax.swing.JPanel
@@ -28,6 +29,7 @@ class GameBoard extends JPanel {
     private int rectY = 50;
     private int rectHeight = 500;
     private int rectWidth = 500;
+    private PointPosition[] pointPositions;
 
     private final class MouseDrag extends MouseAdapter {
         private boolean dragging = false;
@@ -72,7 +74,7 @@ class GameBoard extends JPanel {
 
     public GameBoard() {
         setBackground(Color.WHITE);
-        mouseDrag = new MouseDrag();
+        this.mouseDrag = new MouseDrag();
         addMouseListener(mouseDrag);
         addMouseMotionListener(mouseDrag);
         repaint();
