@@ -31,6 +31,16 @@ class GameBoard extends JPanel {
     private int rectWidth = 500;
     private PointPosition[] pointPositions;
 
+    public GameBoard() {
+        this.pointPositions = new PointPosition[9];
+        setBackground(Color.WHITE);
+        this.mouseDrag = new MouseDrag();
+        addMouseListener(this.mouseDrag);
+        addMouseMotionListener(this.mouseDrag);
+        this.setPointPosition();
+        repaint();
+    }
+
     private final class MouseDrag extends MouseAdapter {
         private boolean dragging = false;
         private Point last;
@@ -72,14 +82,6 @@ class GameBoard extends JPanel {
         }
     }
 
-    public GameBoard() {
-        setBackground(Color.WHITE);
-        this.mouseDrag = new MouseDrag();
-        addMouseListener(mouseDrag);
-        addMouseMotionListener(mouseDrag);
-        repaint();
-    }
-
     public boolean isInsideEllipse(Point point) {
         return new Ellipse2D.Float(x, y, width, height).contains(point);
     }
@@ -94,5 +96,63 @@ class GameBoard extends JPanel {
         g.drawLine(this.rectX + this.rectWidth, this.rectY, this.rectX , this.rectY + this.rectHeight);
         g.drawLine(this.rectX, (int)(this.rectY + this.rectHeight)/ 2 + this.rectY / 2, this.rectX + this.rectWidth, (int)(this.rectY + this.rectHeight)/ 2 + this.rectY / 2);
     }
+
+    public void setPointPosition() {
+        this.pointPositions[0].row = 0;
+        this.pointPositions[0].col = 0;
+        this.pointPositions[0].posX = this.rectX;
+        this.pointPositions[0].posY = this.rectY;
+        this.pointPositions[0].isOccupied = true;
+
+        this.pointPositions[1].row = 0;
+        this.pointPositions[1].col = 1;
+        this.pointPositions[1].posX = this.rectY + (int) (this.rectWidth/2);
+        this.pointPositions[1].posY = this.rectY;
+        this.pointPositions[1].isOccupied = true;
+
+        this.pointPositions[2].row = 0;
+        this.pointPositions[2].col = 2;
+        this.pointPositions[2].posX = this.rectX + this.rectWidth;
+        this.pointPositions[2].posY = this.rectY;
+        this.pointPositions[2].isOccupied = true;
+
+        this.pointPositions[3].row = 1;
+        this.pointPositions[3].col = 0;
+        this.pointPositions[3].posX = this.rectX;
+        this.pointPositions[3].posY = this.rectY + (int) (this.rectHeight/2);
+        this.pointPositions[3].isOccupied = false;
+
+        this.pointPositions[4].row = 1;
+        this.pointPositions[4].col = 1;
+        this.pointPositions[4].posX = this.rectY + (int) (this.rectWidth/2);
+        this.pointPositions[4].posY = this.rectY + (int) (this.rectHeight/2);
+        this.pointPositions[4].isOccupied = false;
+
+        this.pointPositions[5].row = 1;
+        this.pointPositions[5].col = 2;
+        this.pointPositions[5].posX = this.rectX + this.rectWidth;
+        this.pointPositions[5].posY = this.rectY + (int) (this.rectHeight/2);
+        this.pointPositions[5].isOccupied = false;
+
+        this.pointPositions[6].row = 2;
+        this.pointPositions[6].col = 0;
+        this.pointPositions[6].posX = this.rectX;
+        this.pointPositions[6].posY = this.rectY + this.rectHeight;
+        this.pointPositions[6].isOccupied = true;
+
+        this.pointPositions[7].row = 2;
+        this.pointPositions[7].col = 1;
+        this.pointPositions[7].posX = this.rectY + (int) (this.rectWidth/2);
+        this.pointPositions[7].posY =  this.rectY + this.rectHeight;
+        this.pointPositions[7].isOccupied = true;
+
+        this.pointPositions[8].row = 2;
+        this.pointPositions[8].col = 2;
+        this.pointPositions[8].posX = this.rectX + this.rectWidth;
+        this.pointPositions[8].posY =  this.rectY + this.rectHeight;
+        this.pointPositions[8].isOccupied = true;
+
+    }
+
 }
 
