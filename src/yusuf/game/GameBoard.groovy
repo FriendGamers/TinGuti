@@ -22,10 +22,11 @@ class GameBoard extends JPanel {
     private int draggingY;
     private int width;
     private int height;
+    private def draggingCircleIndex;
     private MouseDrag mouseDrag;
     private AiBoard aiBoard;
     private boolean dragging = false;
-    private int diameter = 30;
+    private int radius = 30;
     private int rectX = 50;
     private int rectY = 50;
     private int rectHeight = 500;
@@ -43,47 +44,43 @@ class GameBoard extends JPanel {
     }
 
     private final class MouseDrag extends MouseAdapter {
-        private Point last;
-
 
         @Override
         public void mousePressed(MouseEvent m) {
-            this.last = m.getPoint();
-            this.dragging = isInsideEllipse(last);
-            if (!dragging) {
-                draggingX = last.x;
-                draggingY = last.y;
-                width = 0;
-                height = 0;
-            }
-            repaint();
+            dragging = isInsideCircle(m.getPoint());
         }
 
         @Override
         public void mouseReleased(MouseEvent m) {
-            last = null;
             dragging = false;
+            if(draggingCircleIndex != null) {
+                pointPositions[(int)draggingCircleIndex].isOccupied = true;
+                draggingCircleIndex = null;
+            }
             repaint();
         }
 
         @Override
         public void mouseDragged(MouseEvent m) {
-            int dx = m.getX() - last.x;
-            int dy = m.getY() - last.y;
             if (dragging) {
-                draggingY += dx;
-                draggingY += dy;
-            } else {
-                width += dx;
-                height += dy;
+                draggingX = m.getX();
+                draggingY = m.getY();
             }
-            last = m.getPoint();
             repaint();
         }
     }
 
-    public boolean isInsideEllipse(Point point) {
-        return new Ellipse2D.Float(x, y, width, height).contains(point);
+    public boolean isInsideCircle(Point point) {
+
+        for(int i = 0; i < 9; i++) {
+            if(point.x > this.pointPositions[i].posX - this.radius && point.x < this.pointPositions[i].posX + this.radius
+            && point.y > this.pointPositions[i].posY - this.radius && point.y < this.pointPositions[i].posY + this.radius) {
+                this.pointPositions[i].isOccupied = false;
+                this.draggingCircleIndex = i;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -104,15 +101,19 @@ class GameBoard extends JPanel {
                 } else {
                     g.setColor(Color.CYAN)
                 }
-                this.drawCenteredCircle(g, this.pointPositions[i].posX, this.pointPositions[i].posY, this.diameter);
+                this.drawCenteredCircle(g, this.pointPositions[i].posX, this.pointPositions[i].posY, this.radius);
             }
+        }
+
+        if(this.dragging) {
+            this.drawCenteredCircle(g, this.draggingX, this.draggingY, this.radius);
         }
     }
 
     public void drawCenteredCircle(Graphics g, int x, int y, int r) {
-        x = x-(r/2);
-        y = y-(r/2);
-        g.fillOval(x,y,r,r);
+        x = x - r;
+        y = y - r;
+        g.fillOval(x, y, 2*r, 2*r);
     }
 
     public void setPointPosition() {
