@@ -20,9 +20,8 @@ class GameBoard extends JPanel {
 
     private int draggingX;
     private int draggingY;
-    private int width;
-    private int height;
-    private def draggingCircleIndex;
+    private int draggingCircleIndex;
+    private Color draggingColor;
     private MouseDrag mouseDrag;
     private AiBoard aiBoard;
     private boolean dragging = false;
@@ -52,11 +51,10 @@ class GameBoard extends JPanel {
 
         @Override
         public void mouseReleased(MouseEvent m) {
-            dragging = false;
-            if(draggingCircleIndex != null) {
-                pointPositions[(int)draggingCircleIndex].isOccupied = true;
-                draggingCircleIndex = null;
+            if(dragging) {
+                setInsideNewPos(m.getPoint());
             }
+            dragging = false;
             repaint();
         }
 
@@ -71,16 +69,43 @@ class GameBoard extends JPanel {
     }
 
     public boolean isInsideCircle(Point point) {
-
         for(int i = 0; i < 9; i++) {
-            if(point.x > this.pointPositions[i].posX - this.radius && point.x < this.pointPositions[i].posX + this.radius
-            && point.y > this.pointPositions[i].posY - this.radius && point.y < this.pointPositions[i].posY + this.radius) {
+            if(this.pointPositions[i].isOccupied && point.x > this.pointPositions[i].posX - this.radius
+                    && point.x < this.pointPositions[i].posX + this.radius && point.y > this.pointPositions[i].posY - this.radius
+                    && point.y < this.pointPositions[i].posY + this.radius) {
                 this.pointPositions[i].isOccupied = false;
+                this.draggingColor = this.pointPositions[i].color;
                 this.draggingCircleIndex = i;
                 return true;
             }
         }
         return false;
+    }
+
+    public void setInsideNewPos(Point point) {
+        boolean newPos = false;
+        for(int i = 0; i < 9; i++) {
+            if(!this.pointPositions[i].isOccupied && i != draggingCircleIndex && point.x > this.pointPositions[i].posX - this.radius
+                    && point.x < this.pointPositions[i].posX + this.radius && point.y > this.pointPositions[i].posY - this.radius
+                    && point.y < this.pointPositions[i].posY + this.radius) {
+                this.pointPositions[i].isOccupied = true;
+                if(this.pointPositions[this.draggingCircleIndex].player == 1) {
+                    this.pointPositions[i].color = Color.RED;
+                    this.pointPositions[i].player = 1;
+                } else if(this.pointPositions[this.draggingCircleIndex].player == 2){
+                    this.pointPositions[i].color = new Color(38,215,44);
+                    this.pointPositions[i].player = 2;
+                } else {
+                    println(this.pointPositions[this.draggingCircleIndex].player);
+                    println(this.draggingCircleIndex);
+                    println("aser kotha na");
+                }
+                newPos = true;
+                break;
+            }
+        }
+        pointPositions[this.draggingCircleIndex].isOccupied = !newPos;
+        pointPositions[this.draggingCircleIndex].player = newPos ? 0 : pointPositions[this.draggingCircleIndex].player;
     }
 
     @Override
@@ -96,16 +121,13 @@ class GameBoard extends JPanel {
 
         for(int i = 0; i < 9; i++) {
             if(this.pointPositions[i].isOccupied) {
-                if(this.pointPositions[i].player == 1) {
-                    g.setColor(Color.GRAY);
-                } else {
-                    g.setColor(Color.CYAN)
-                }
+                g.setColor(this.pointPositions[i].color)
                 this.drawCenteredCircle(g, this.pointPositions[i].posX, this.pointPositions[i].posY, this.radius);
             }
         }
 
         if(this.dragging) {
+            g.setColor(this.draggingColor);
             this.drawCenteredCircle(g, this.draggingX, this.draggingY, this.radius);
         }
     }
@@ -124,6 +146,7 @@ class GameBoard extends JPanel {
         this.pointPositions[0].posY = this.rectY;
         this.pointPositions[0].isOccupied = true;
         this.pointPositions[0].player = 1;
+        this.pointPositions[0].color = new Color(255, 98, 108);
 
         this.pointPositions[1] = new PointPosition();
         this.pointPositions[1].row = 0;
@@ -132,6 +155,7 @@ class GameBoard extends JPanel {
         this.pointPositions[1].posY = this.rectY;
         this.pointPositions[1].isOccupied = true;
         this.pointPositions[1].player = 1;
+        this.pointPositions[1].color = new Color(255, 98, 108);
 
         this.pointPositions[2] = new PointPosition();
         this.pointPositions[2].row = 0;
@@ -140,6 +164,7 @@ class GameBoard extends JPanel {
         this.pointPositions[2].posY = this.rectY;
         this.pointPositions[2].isOccupied = true;
         this.pointPositions[2].player = 1;
+        this.pointPositions[2].color = new Color(255, 98, 108);
 
         this.pointPositions[3] = new PointPosition();
         this.pointPositions[3].row = 1;
@@ -169,6 +194,7 @@ class GameBoard extends JPanel {
         this.pointPositions[6].posY = this.rectY + this.rectHeight;
         this.pointPositions[6].isOccupied = true;
         this.pointPositions[6].player = 2;
+        this.pointPositions[6].color = new Color(61, 133, 64);
 
         this.pointPositions[7] = new PointPosition();
         this.pointPositions[7].row = 2;
@@ -177,6 +203,7 @@ class GameBoard extends JPanel {
         this.pointPositions[7].posY =  this.rectY + this.rectHeight;
         this.pointPositions[7].isOccupied = true;
         this.pointPositions[7].player = 2;
+        this.pointPositions[7].color = new Color(61, 133, 64);
 
         this.pointPositions[8] = new PointPosition();
         this.pointPositions[8].row = 2;
@@ -185,6 +212,7 @@ class GameBoard extends JPanel {
         this.pointPositions[8].posY =  this.rectY + this.rectHeight;
         this.pointPositions[8].isOccupied = true;
         this.pointPositions[8].player = 2;
+        this.pointPositions[8].color = new Color(61, 133, 64);
 
     }
 
