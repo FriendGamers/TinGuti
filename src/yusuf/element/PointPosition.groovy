@@ -9,4 +9,5 @@ class PointPosition {
     public int posX;
     public int posY;
     public boolean isOccupied;
+    public int player;
 }
