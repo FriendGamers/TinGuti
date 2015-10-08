@@ -33,13 +33,13 @@ class AiBoard {
         this.visitedBoard = new int[90];
         this.board = new int[3][3];
         this.move = new HashMap<Pair, ArrayList<Pair>>();
+        this.setMoves();
         this.board[0][0] = 1;
         this.board[0][1] = 1;
         this.board[0][2] = 1;
         this.board[2][0] = 3;
         this.board[2][1] = 3;
         this.board[2][2] = 3;
-        this.setMoves();
     }
 
     public int calculateBoardValue(int player) {
@@ -208,6 +208,6 @@ class AiBoard {
         m8[0] = new Pair(2,1);
         m8[1] = new Pair(1,1);
         m8[2] = new Pair(1,2);
-        this.move[new Pair(2,2)] = m5;
+        this.move[new Pair(2,2)] = m8;
     }
 }

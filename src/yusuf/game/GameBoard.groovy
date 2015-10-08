@@ -1,17 +1,16 @@
 package yusuf.game
 
 import yusuf.ai.AiBoard
+import yusuf.element.Pair
+import yusuf.element.PairToPair
 import yusuf.element.PointPosition
 
-import javax.swing.JFrame
 import javax.swing.JPanel
 import java.awt.Color
 import java.awt.Graphics
-import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
-import java.awt.geom.Ellipse2D
 
 /**
  * Created by YUSUF on 9/15/15.
@@ -19,11 +18,12 @@ import java.awt.geom.Ellipse2D
 class GameBoard extends JPanel {
 
     private int draggingX;
+    private int playerTurn;
     private int draggingY;
     private int draggingCircleIndex;
     private Color draggingColor;
     private MouseDrag mouseDrag;
-    private AiBoard aiBoard;
+    public AiBoard aiBoard;
     private boolean dragging = false;
     private int radius = 30;
     private int rectX = 50;
@@ -31,6 +31,9 @@ class GameBoard extends JPanel {
     private int rectHeight = 500;
     private int rectWidth = 500;
     private PointPosition[] pointPositions;
+    private ArrayList<PairToPair> winPos;
+    private ArrayList<PairToPair> drawPos;
+    private ArrayList<PairToPair> lossPos;
 
     public GameBoard() {
         this.pointPositions = new PointPosition[9];
@@ -39,6 +42,7 @@ class GameBoard extends JPanel {
         addMouseListener(this.mouseDrag);
         addMouseMotionListener(this.mouseDrag);
         this.setPointPosition();
+        this.playerTurn = 1;
         repaint();
     }
 
@@ -46,7 +50,9 @@ class GameBoard extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent m) {
-            dragging = isInsideCircle(m.getPoint());
+            if(playerTurn == 1) {
+                dragging = isInsideCircle(m.getPoint());
+            }
         }
 
         @Override
@@ -55,7 +61,6 @@ class GameBoard extends JPanel {
                 setInsideNewPos(m.getPoint());
             }
             dragging = false;
-            repaint();
         }
 
         @Override
@@ -84,7 +89,9 @@ class GameBoard extends JPanel {
 
     public void setInsideNewPos(Point point) {
         boolean newPos = false;
-        for(int i = 0; i < 9; i++) {
+        ArrayList<Pair> moves = this.aiBoard.move.get(new Pair(this.pointPositions[draggingCircleIndex].row, this.pointPositions[draggingCircleIndex].col));
+        for(int j = 0; j < moves.size(); j++) {
+            int i = this.getPositionByRowCol(moves[j].x, moves[j].y);
             if(!this.pointPositions[i].isOccupied && i != draggingCircleIndex && point.x > this.pointPositions[i].posX - this.radius
                     && point.x < this.pointPositions[i].posX + this.radius && point.y > this.pointPositions[i].posY - this.radius
                     && point.y < this.pointPositions[i].posY + this.radius) {
@@ -92,20 +99,84 @@ class GameBoard extends JPanel {
                 if(this.pointPositions[this.draggingCircleIndex].player == 1) {
                     this.pointPositions[i].color = Color.RED;
                     this.pointPositions[i].player = 1;
-                } else if(this.pointPositions[this.draggingCircleIndex].player == 2){
+                } else {
                     this.pointPositions[i].color = new Color(38,215,44);
                     this.pointPositions[i].player = 2;
-                } else {
-                    println(this.pointPositions[this.draggingCircleIndex].player);
-                    println(this.draggingCircleIndex);
-                    println("aser kotha na");
                 }
+                if(pointPositions[this.draggingCircleIndex].player == 1) {
+                    this.aiBoard.board[pointPositions[this.draggingCircleIndex].row][pointPositions[this.draggingCircleIndex].col] = 0;
+                    this.aiBoard.board[pointPositions[i].row][pointPositions[i].col] = 2;
+                } else {
+                    this.aiBoard.board[pointPositions[this.draggingCircleIndex].row][pointPositions[this.draggingCircleIndex].col] = 0;
+                    this.aiBoard.board[pointPositions[i].row][pointPositions[i].col] = 4;
+                }
+                this.playerTurn = 2;
                 newPos = true;
                 break;
             }
         }
         pointPositions[this.draggingCircleIndex].isOccupied = !newPos;
         pointPositions[this.draggingCircleIndex].player = newPos ? 0 : pointPositions[this.draggingCircleIndex].player;
+        if(newPos) {
+            repaint();
+            this.computerPlay();
+        }
+    }
+
+    public void computerPlay() {
+        winPos = new ArrayList<PairToPair>();
+        lossPos = new ArrayList<PairToPair>();
+        drawPos = new ArrayList<PairToPair>();
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(this.aiBoard.board[i][j] == 3 || this.aiBoard.board[i][j] == 4) {
+                    ArrayList<Pair> moves = this.aiBoard.move.get(new Pair(i,j));
+                    int prevValue = this.aiBoard.board[i][j];
+                    this.aiBoard.board[i][j] = 0;
+                    for(int k = 0; k < moves.size(); k++) {
+                        if(this.aiBoard.board[moves[k].x][moves[k].y] == 0) {
+                            this.aiBoard.board[moves[k].x][moves[k].y] = 4;
+                            int value = this.aiBoard.boardValue[this.aiBoard.board[0][0]][this.aiBoard.board[0][1]][this.aiBoard.board[0][2]][this.aiBoard.board[1][0]][this.aiBoard.board[1][1]][this.aiBoard.board[1][2]][this.aiBoard.board[2][0]][this.aiBoard.board[2][1]][this.aiBoard.board[2][2]];
+                            if(value == 2){
+                                winPos.add(new PairToPair(new Pair(i,j), new Pair(moves[k].x, moves[k].y)));
+                            } else if(value == 1) {
+                                lossPos.add(new PairToPair(new Pair(i,j), new Pair(moves[k].x, moves[k].y)));
+                            } else {
+                                drawPos.add(new PairToPair(new Pair(i,j), new Pair(moves[k].x, moves[k].y)));
+                            }
+                            this.aiBoard.board[moves[k].x][moves[k].y] = 0;
+                        }
+                    }
+                    this.aiBoard.board[i][j] = prevValue;
+                }
+            }
+        }
+        Random rand = new Random();
+        int pos;
+        if(winPos.size() > 0) {
+            pos = rand.nextInt(winPos.size())
+            this.computerMove(winPos[pos].fromPair, winPos[pos].toPair);
+        } else if(drawPos.size() > 0) {
+            pos = rand.nextInt(drawPos.size());
+            this.computerMove(drawPos[pos].fromPair, drawPos[pos].toPair);
+        } else {
+            pos = rand.nextInt(lossPos.size())
+            this.computerMove(lossPos[pos].fromPair, lossPos[pos].toPair);
+        }
+    }
+
+    public void computerMove(Pair from, Pair to) {
+        int fromIndex = this.getPositionByRowCol(from.x, from.y);
+        this.pointPositions[fromIndex].isOccupied = false;
+        this.pointPositions[fromIndex].player = 0;
+        this.aiBoard.board[this.pointPositions[fromIndex].row][this.pointPositions[fromIndex].col] = 0;
+        int toIndex = this.getPositionByRowCol(to.x, to.y);
+        this.pointPositions[toIndex].isOccupied = true;
+        this.pointPositions[toIndex].player = 0;
+        this.pointPositions[toIndex].color = new Color(38,215,44);
+        this.playerTurn = 1;
+        this.aiBoard.board[this.pointPositions[toIndex].row][this.pointPositions[toIndex].col] = 4;
+        repaint();
     }
 
     @Override
@@ -214,6 +285,14 @@ class GameBoard extends JPanel {
         this.pointPositions[8].player = 2;
         this.pointPositions[8].color = new Color(61, 133, 64);
 
+    }
+
+    public int getPositionByRowCol(int row, int col) {
+        for(int i = 0; i < 9; i++) {
+            if(this.pointPositions[i].row == row && this.pointPositions[i].col == col) {
+                return i;
+            }
+        }
     }
 
 }

@@ -18,6 +18,15 @@ class Play extends JFrame {
     public static void main(String[] argv) {
         AiBoard aiBoard = new AiBoard();
         aiBoard.calculateBoardValue(1);
+        JFrame jFrame = new JFrame();
+        jFrame.setSize(600, 630);
+        GameBoard gameBoard = new GameBoard();
+        gameBoard.aiBoard = aiBoard;
+        jFrame.add(gameBoard);
+        jFrame.setVisible(true);
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         /*for(int a=0; a < 5; a++) {
             for(int b=0; b < 5; b++) {
                 for(int c =0; c < 5; c++) {
@@ -37,11 +46,5 @@ class Play extends JFrame {
                 }
             }
         }*/
-        JFrame jFrame = new JFrame();
-        jFrame.setSize(600, 630);
-        jFrame.add(new GameBoard());
-        jFrame.setVisible(true);
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
