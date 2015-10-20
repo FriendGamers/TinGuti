@@ -73,6 +73,7 @@ class AiBoard {
         }
         int[] results = new int[200];
         int resultSize = 0;
+        int vCount =0;
         for(int i=0; i < 3; i++ ) {
             for(int j=0; j < 3; j++) {
                 if(this.board[i][j] == playerValue1 || this.board[i][j] == playerValue2) {
@@ -85,7 +86,7 @@ class AiBoard {
                             this.board[moves[k].x][moves[k].y] = moveValue;
                             this.board[i][j] = 0;
                             if(this.visited[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][nextPlayer]) {
-                                //println("ekbar to aise");
+                                vCount++;
                             } else {
                                 results[resultSize++] = this.calculateBoardValue(nextPlayer);
                             }
@@ -99,6 +100,8 @@ class AiBoard {
         int currentValue;
         boolean drow = false;
         boolean currentWin = false;
+        println("vCount " + vCount);
+        println(resultSize);
         if(resultSize > 0) {
             for(int i = 0; i < resultSize; i++) {
                 if(results[i] == player) {
