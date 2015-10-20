@@ -36,7 +36,9 @@ class Play extends JFrame {
                                 for(int g=0; g < 5; g++) {
                                     for(int h=0; h < 5; h++) {
                                         for(int i=0; i < 5; i++) {
-                                            println(aiBoard.boardValue[a][b][c][d][e][f][g][h][i]);
+                                            for(int j = 1; j < 3; j ++) {
+                                                println(aiBoard.boardValue[a][b][c][d][e][f][g][h][i][j]);
+                                            }
                                         }
                                     }
                                 }

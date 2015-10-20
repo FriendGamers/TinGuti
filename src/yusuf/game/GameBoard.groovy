@@ -136,7 +136,7 @@ class GameBoard extends JPanel {
                     for(int k = 0; k < moves.size(); k++) {
                         if(this.aiBoard.board[moves[k].x][moves[k].y] == 0) {
                             this.aiBoard.board[moves[k].x][moves[k].y] = 4;
-                            int value = this.aiBoard.boardValue[this.aiBoard.board[0][0]][this.aiBoard.board[0][1]][this.aiBoard.board[0][2]][this.aiBoard.board[1][0]][this.aiBoard.board[1][1]][this.aiBoard.board[1][2]][this.aiBoard.board[2][0]][this.aiBoard.board[2][1]][this.aiBoard.board[2][2]][2];
+                            int value = this.aiBoard.boardValue[this.aiBoard.board[0][0]][this.aiBoard.board[0][1]][this.aiBoard.board[0][2]][this.aiBoard.board[1][0]][this.aiBoard.board[1][1]][this.aiBoard.board[1][2]][this.aiBoard.board[2][0]][this.aiBoard.board[2][1]][this.aiBoard.board[2][2]][1];
                             if(value == 2){
                                 winPos.add(new PairToPair(new Pair(i,j), new Pair(moves[k].x, moves[k].y)));
                             } else if(value == 1) {

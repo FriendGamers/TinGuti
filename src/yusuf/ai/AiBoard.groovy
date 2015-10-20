@@ -45,7 +45,7 @@ class AiBoard {
 
     public int calculateBoardValue(int player) {
         this.visited[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player] = true;
-        println(call++);
+        //println(call++);
         if(this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player]) {
 
             return this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player];
@@ -53,7 +53,7 @@ class AiBoard {
 
         int curValue = this.checkBoard();
         if(curValue > 0) {
-            println(call++);
+            //println(call++);
             this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player] = true;
             this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player] = curValue;
             return curValue;
@@ -85,7 +85,7 @@ class AiBoard {
                             this.board[moves[k].x][moves[k].y] = moveValue;
                             this.board[i][j] = 0;
                             if(this.visited[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][nextPlayer]) {
-                                println("ekbar to aise");
+                                //println("ekbar to aise");
                             } else {
                                 results[resultSize++] = this.calculateBoardValue(nextPlayer);
                             }
