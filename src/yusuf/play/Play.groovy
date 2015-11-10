@@ -17,7 +17,7 @@ class Play extends JFrame {
 
     public static void main(String[] argv) {
         AiBoard aiBoard = new AiBoard();
-        aiBoard.calculateBoardValue(1);
+        //aiBoard.calculateBoardValue(1);
         JFrame jFrame = new JFrame();
         jFrame.setSize(600, 630);
         GameBoard gameBoard = new GameBoard();

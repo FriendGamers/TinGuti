@@ -25,7 +25,7 @@ class AiBoard {
     int[] visitedBoard;
     int[][] board;
     HashMap<Pair, ArrayList<Pair>> move;
-    int call = 0;
+    int maxDepth;
 
     public AiBoard() {
         this.boardValue = new int[5][5][5][5][5][5][5][5][5][3];
@@ -41,6 +41,7 @@ class AiBoard {
         this.board[2][0] = 3;
         this.board[2][1] = 3;
         this.board[2][2] = 3;
+        this.maxDepth = 7;
     }
 
     public int calculateBoardValue(int player) {
@@ -100,8 +101,8 @@ class AiBoard {
         int currentValue;
         boolean drow = false;
         boolean currentWin = false;
-        println("vCount " + vCount);
-        println(resultSize);
+        //println("vCount " + vCount);
+        //println(resultSize);
         if(resultSize > 0) {
             for(int i = 0; i < resultSize; i++) {
                 if(results[i] == player) {
@@ -120,7 +121,7 @@ class AiBoard {
                 if(player == 1) {
                     currentValue = 2
                 } else {
-                    currentValue = 1;
+                    currentValue = 0;
                 }
             }
         } else {
@@ -131,6 +132,81 @@ class AiBoard {
         //marking board value
         this.markBoard[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player] = true;
         this.boardValue[this.board[0][0]][this.board[0][1]][this.board[0][2]][this.board[1][0]][this.board[1][1]][this.board[1][2]][this.board[2][0]][this.board[2][1]][this.board[2][2]][player] = currentValue;
+        return currentValue;
+    }
+
+    /* return the expected value of wining */
+
+    public int calculateBoardValueDFS(int player, int depth) {
+
+        int curValue = this.checkBoard();
+        if(depth > this.maxDepth) {
+            return -1;
+        }
+        if(curValue > 0) {
+            return curValue;
+        }
+        int playerValue1, playerValue2, moveValue, nextPlayer;
+        if(player == 1) {
+            playerValue1 = 1;
+            playerValue2 = 2;
+            moveValue = 2;
+            nextPlayer = 2;
+        } else {
+            playerValue1 = 3;
+            playerValue2 = 4;
+            moveValue = 4;
+            nextPlayer = 1;
+        }
+        int[] results = new int[200];
+        int resultSize = 0;
+        int vCount =0;
+        for(int i=0; i < 3; i++ ) {
+            for(int j=0; j < 3; j++) {
+                if(this.board[i][j] == playerValue1 || this.board[i][j] == playerValue2) {
+                    Pair p = new Pair(i,j);
+                    ArrayList<Pair> moves = this.move.get(p);
+                    for(int k = 0; k < moves.size(); k++) {
+                        if(this.board[moves[k].x][moves[k].y] == 0) {
+                            int prevValue = this.board[i][j];
+                            this.board[moves[k].x][moves[k].y] = moveValue;
+                            this.board[i][j] = 0;
+                            results[resultSize++] = this.calculateBoardValueDFS(nextPlayer, ++depth);
+                            this.board[i][j] = prevValue;
+                            this.board[moves[k].x][moves[k].y] = 0;
+                        }
+                    }
+                }
+            }
+        }
+        int currentValue;
+        boolean drow = false;
+        boolean currentWin = false;
+        /*println("vCount " + vCount);
+        println(resultSize);*/
+        if(resultSize > 0) {
+            for(int i = 0; i < resultSize; i++) {
+                if(results[i] == player) {
+                    currentValue = player;
+                    currentWin = true
+                } else if(results[i] == 0) {
+                    drow = true;
+                }
+            }
+            if(drow) {
+                currentValue = 0;
+            } else if (currentWin) {
+                currentValue = player;
+            } else {
+                if(player == 1) {
+                    currentValue = 2
+                } else {
+                    currentValue = 0;
+                }
+            }
+        } else {
+            currentValue = 0;
+        }
         return currentValue;
     }
 
