@@ -41,7 +41,7 @@ class AiBoard {
         this.board[2][0] = 3;
         this.board[2][1] = 3;
         this.board[2][2] = 3;
-        this.maxDepth = 7;
+        this.maxDepth = 10;
     }
 
     public int calculateBoardValue(int player) {
@@ -188,15 +188,16 @@ class AiBoard {
             for(int i = 0; i < resultSize; i++) {
                 if(results[i] == player) {
                     currentValue = player;
-                    currentWin = true
+                    currentWin = true;
+                    break;
                 } else if(results[i] == 0) {
                     drow = true;
                 }
             }
-            if(drow) {
-                currentValue = 0;
-            } else if (currentWin) {
+            if(currentWin) {
                 currentValue = player;
+            } else if (drow) {
+                currentValue = 0;
             } else {
                 if(player == 1) {
                     currentValue = 2
