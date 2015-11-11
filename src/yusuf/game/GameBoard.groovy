@@ -5,6 +5,7 @@ import yusuf.element.Pair
 import yusuf.element.PairToPair
 import yusuf.element.PointPosition
 
+import javax.swing.JOptionPane
 import javax.swing.JPanel
 import java.awt.Color
 import java.awt.Graphics
@@ -166,6 +167,7 @@ class GameBoard extends JPanel {
     }
 
     public void computerMove(Pair from, Pair to) {
+        sleep(100);
         int fromIndex = this.getPositionByRowCol(from.x, from.y);
         this.pointPositions[fromIndex].isOccupied = false;
         this.pointPositions[fromIndex].player = 0;
@@ -177,6 +179,7 @@ class GameBoard extends JPanel {
         this.playerTurn = 1;
         this.aiBoard.board[this.pointPositions[toIndex].row][this.pointPositions[toIndex].col] = 4;
         repaint();
+        this.checkWinner();
     }
 
     @Override
@@ -293,6 +296,30 @@ class GameBoard extends JPanel {
                 return i;
             }
         }
+    }
+
+    public void checkWinner() {
+        int curValue = this.aiBoard.checkBoard();
+        if(curValue > 0) {
+            int playAgain = 0;
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            if(curValue == 1) {
+                playAgain = JOptionPane.showConfirmDialog (null, "Wow You win. Do you like to play again","Game Over",dialogButton);
+            } else if(curValue == 2) {
+                playAgain = JOptionPane.showConfirmDialog (null, "Sorry You loss. Do you like to play again","Game Over",dialogButton);
+            }
+            if (playAgain == JOptionPane.YES_OPTION) {
+                this.reSetGame();
+                repaint();
+            } else {
+                System.exit(0);
+            }
+        }
+    }
+
+    public void reSetGame() {
+        this.aiBoard.resetBoard();
+        this.setPointPosition();
     }
 
 }

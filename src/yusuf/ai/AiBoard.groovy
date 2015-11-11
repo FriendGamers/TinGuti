@@ -211,7 +211,7 @@ class AiBoard {
         return currentValue;
     }
 
-    private int checkBoard() {
+    public int checkBoard() {
         if((this.board[0][0] == this.board[0][1]) && (this.board[0][1] == this.board[0][2]) && (this.board[0][0] == 2)) {
             return 1;
         } else if((this.board[0][0] == this.board[0][1]) && (this.board[0][1] == this.board[0][2]) && (this.board[0][0] == 4)) {
@@ -247,6 +247,18 @@ class AiBoard {
         } else {
             return 0;
         }
+    }
+
+    public void resetBoard() {
+        this.board[0][0] = 1;
+        this.board[0][1] = 1;
+        this.board[0][2] = 1;
+        this.board[1][0] = 0;
+        this.board[1][1] = 0;
+        this.board[1][2] = 0;
+        this.board[2][0] = 3;
+        this.board[2][1] = 3;
+        this.board[2][2] = 3;
     }
 
     private void setMoves() {
