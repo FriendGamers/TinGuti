@@ -121,6 +121,8 @@ class GameBoard extends JPanel {
         if(newPos) {
             repaint();
             this.computerPlay();
+        } else {
+            repaint();
         }
     }
 
