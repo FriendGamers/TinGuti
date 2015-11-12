@@ -78,7 +78,7 @@ class GameBoard extends JPanel {
         for(int i = 0; i < 9; i++) {
             if(this.pointPositions[i].isOccupied && point.x > this.pointPositions[i].posX - this.radius
                     && point.x < this.pointPositions[i].posX + this.radius && point.y > this.pointPositions[i].posY - this.radius
-                    && point.y < this.pointPositions[i].posY + this.radius) {
+                    && point.y < this.pointPositions[i].posY + this.radius && this.pointPositions[i].player == 1) {
                 this.pointPositions[i].isOccupied = false;
                 this.draggingColor = this.pointPositions[i].color;
                 this.draggingCircleIndex = i;
