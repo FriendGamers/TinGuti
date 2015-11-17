@@ -190,7 +190,7 @@ class AiBoard {
                     currentValue = player;
                     currentWin = true;
                     break;
-                } else if(results[i] == 0) {
+                } else  {
                     drow = true;
                 }
             }
